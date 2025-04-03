@@ -30,8 +30,7 @@ func Worker(in <-chan int64, out chan<- int64) {
 	for val := range in {
 		out <- val
 
-		timer := time.NewTimer(1 * time.Millisecond)
-		<-timer.C
+		time.Sleep(1 * time.Millisecond)
 	}
 
 	close(out)
@@ -75,7 +74,7 @@ func main() {
 			defer wg.Done()
 
 			for v := range val {
-				atomic.AddInt64(&amounts[i], 1)
+				amounts[i]++
 				chOut <- v
 			}
 		}(val, i)
